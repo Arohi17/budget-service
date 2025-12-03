@@ -26,7 +26,6 @@ public class MonthBudgetServiceImpl implements MonthBudgetService {
     @Override
     public MonthBudgetResponseDTO createMonthBudget(String userId, MonthBudgetRequestDTO requestDTO) {
 
-        // Map request → entity
         MonthBudget budget = modelMapper.map(requestDTO, MonthBudget.class);
         budget.setUserId(userId);
         budget.setSpentAmount(0.0);
@@ -34,7 +33,6 @@ public class MonthBudgetServiceImpl implements MonthBudgetService {
         budget.setLastUpdatedAt(null);
         budget.setRemainingAmount(budget.getBudgetAmount());
 
-        // Save to DB
         monthBudgetRepository.save(budget);
 
         // Reward coins for setting budget
@@ -44,7 +42,6 @@ public class MonthBudgetServiceImpl implements MonthBudgetService {
                 requestDTO.getYear()
         );
 
-        // Map entity → response DTO
         MonthBudgetResponseDTO dto = modelMapper.map(budget, MonthBudgetResponseDTO.class);
         dto.setRemainingAmount(budget.getBudgetAmount() - budget.getSpentAmount());
         return dto;
@@ -93,14 +90,12 @@ public class MonthBudgetServiceImpl implements MonthBudgetService {
             }
         }
 
-        // Update spent amount
         budget.setSpentAmount(budget.getSpentAmount() + spentAmount);
         budget.setLastUpdatedAt(now);
         budget.setRemainingAmount(budget.getBudgetAmount() - budget.getSpentAmount());
 
         monthBudgetRepository.save(budget);
 
-        // Map to DTO
         MonthBudgetResponseDTO dto = modelMapper.map(budget, MonthBudgetResponseDTO.class);
         dto.setRemainingAmount(budget.getRemainingAmount());
         return dto;

@@ -12,6 +12,5 @@ public interface MonthlyCoinRepository extends ArangoRepository<MonthlyCoin, Str
    @Query("FOR c IN monthly_coins FILTER c.userId == @userId SORT c.year DESC, c.month DESC LIMIT 1 RETURN c")
    MonthlyCoin findLatestForUser(@Param("userId") String userId);
 
-    //MonthlyCoin findTopByUserIdOrderByYearDescMonthDesc(String userId);
 }
 

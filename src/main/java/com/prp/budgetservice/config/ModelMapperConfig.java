@@ -16,27 +16,19 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
 
-        // Strict matching (best practice)
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        /* ---------------------------------------
-         *   MonthBudget → MonthBudgetResponseDTO
-         * ---------------------------------------
-         */
+
         mapper.typeMap(MonthBudget.class, MonthBudgetResponseDTO.class)
                 .addMapping(
-                        MonthBudget::getLocked,          // Entity: Boolean Locked
-                        MonthBudgetResponseDTO::setLocked // DTO: boolean locked
+                        MonthBudget::getLocked,
+                        MonthBudgetResponseDTO::setLocked
                 );
 
-        /* ---------------------------------------
-         *   Notification → NotificationResponseDTO
-         * ---------------------------------------
-         */
         mapper.typeMap(Notification.class, NotificationResponseDTO.class)
                 .addMapping(
-                        Notification::getRead,           // Entity: Boolean isRead
-                        NotificationResponseDTO::setRead   // DTO: Boolean read
+                        Notification::getRead,
+                        NotificationResponseDTO::setRead
                 );
 
         return mapper;

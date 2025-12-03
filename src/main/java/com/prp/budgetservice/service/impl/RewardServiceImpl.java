@@ -29,13 +29,13 @@ public class RewardServiceImpl implements RewardService {
     @Override
     public MonthlyCoin handleCoinsForBudgetCreation(String userId, int month, int year) {
 
-        // If already awarded this month → return existing
+        // If already awarded this month --- return existing
         MonthlyCoin existing = monthlyCoinRepository.findByUserIdAndMonthAndYear(userId, month, year);
         if (existing != null) {
             return existing;
         }
 
-        // Find last month's coin record (if any)
+        // Find last month's coin record
         MonthlyCoin last = monthlyCoinRepository.findLatestForUser(userId);
         int previousCoins = (last != null) ? last.getTotalCoins() : 0;
 
@@ -61,7 +61,7 @@ public class RewardServiceImpl implements RewardService {
         return record;
     }
 
-    // Calculate reward for controller
+    // Calculate reward
     @Override
     public RewardResponseDTO calculateMonthlyReward(String userId, int month, int year) {
         MonthlyCoin record = handleCoinsForBudgetCreation(userId, month, year);
@@ -77,7 +77,7 @@ public class RewardServiceImpl implements RewardService {
         return dto;
     }
 
-    // Reminder logic: show reminder for 3 days, auto carry-forward afterwards
+    // Reminder logic: show reminder for 3 days then auto carry-forward
     @Override
     public BudgetReminderStatusDTO getReminderStatus(String userId) {
 
